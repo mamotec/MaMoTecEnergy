@@ -1,0 +1,6 @@
+# Webframe which will create the REST Api
+fastapi
+# Uvicorn is an ASGI web server implementation for Python.
+uvicorn
+# Communication over modbus
+pymodbus
