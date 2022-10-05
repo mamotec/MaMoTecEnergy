@@ -4,3 +4,8 @@ fastapi
 uvicorn
 # Communication over modbus
 pymodbus
+# Database
+SQLAlchemy
+pydantic
+psycopg2
+alembic
