@@ -2,10 +2,10 @@
 Start of the MaMoTecEnergy Backend
 """
 from fastapi import FastAPI
-
-import app.modbus.modbus_management as mod_management
 from app.database.db import SessionLocal
 from app.modbus.read_modbus import read_holding_registers
+from app.router import register
+import app.modbus.modbus_management as mod_management
 
 app = FastAPI()
 
@@ -25,6 +25,8 @@ def startup():
     mod_management.connect_to_bus()
     get_db()
 
+
+app.include_router(register.router)
 
 @app.get("/")
 def root():

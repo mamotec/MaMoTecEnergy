@@ -1,15 +1,15 @@
-"""
-Model for holding register´s
-"""
 from sqlalchemy import Column, Integer, String
 
-from app.database.db import Base
+from app.database.models.base_model import BaseModel
 
 
-class Register(Base):
+class Register(BaseModel):
+    """
+    Model for holding register´s
+    """
+
     __tablename__ = "register"
 
-    id = Column(Integer, primary_key=True, index=True)
-    address = Column(Integer, index=True, nullable=False)
+    address = Column(String, index=True, nullable=False)
     translation = Column(String, nullable=False)
     value = Column(Integer, nullable=False)
