@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  db:
+    container_name: mamotecdb
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: mamotec
+      POSTGRES_PASSWORD: MaMoTec00001
+      POSTGRES_DB: mamotecenergy
+    ports:
+      - "5432:5432"
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: moritz.vogt@vogges.de
+      PGADMIN_DEFAULT_PASSWORD: Start123
+    ports:
+      - "5050:80"
