@@ -1,7 +1,7 @@
 """
 File for reading Information on the BUS.
 """
-import app.modbus.modbus_management as modbus_management
+import app.main.modbus.modbus_management as modbus_management
 
 client = modbus_management.return_client()
 

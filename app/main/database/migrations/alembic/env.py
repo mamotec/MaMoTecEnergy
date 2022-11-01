@@ -6,7 +6,6 @@ from sqlalchemy import pool
 from alembic import context
 
 ############## Model Imports ##############
-from app.database.models.register import Register
 
 ############## Model Imports ##############
 
@@ -23,7 +22,7 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-from app.database.db import Base
+from app.main.database.db import Base
 
 target_metadata = Base.metadata
 
