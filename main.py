@@ -3,8 +3,8 @@ Start of the MaMoTecEnergy Backend
 """
 from fastapi import FastAPI
 
-import app.main.modbus.modbus_management as mod_management
-from app.main.modbus.read_modbus import read_holding_registers
+import app.main.modbus.ModbusManagement as mod_management
+from app.main.modbus.ReadModbus import read_holding_registers
 from app.main.router import register
 
 app = FastAPI()

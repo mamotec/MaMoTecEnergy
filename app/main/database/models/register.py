@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String
 
-from app.main.database.models.base_model import BaseModel
+from app.main.database.models.BaseModel import BaseModel
 
 
 class Register(BaseModel):
