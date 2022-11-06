@@ -13,9 +13,9 @@ app = FastAPI()
 @app.on_event("startup")
 def startup():
     # Modbus Connection
-    mod_management.connect_to_bus()
+    mod_management.connect_to_bus_on_startup()
 
-@app.get("/")
+@app.get("/test")
 def root():
     result = read_holding_registers()
     print(result)
