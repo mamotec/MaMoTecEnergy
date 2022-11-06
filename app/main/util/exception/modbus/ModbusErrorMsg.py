@@ -3,6 +3,10 @@ from fastapi import status
 
 
 class ModbusErrorMsg(Enum):
+    """
+    Error Msg for Modbus operations.
+    """
+
     CONNECTION_TIMEOUT = (status.HTTP_408_REQUEST_TIMEOUT, "Modbus TCP connection not established.")
 
     def __init__(self, status_code, detail):
