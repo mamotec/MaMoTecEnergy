@@ -17,7 +17,7 @@ def startup():
 
 @app.get("/test")
 def root():
-    result = read_holding_registers()
+    result = read_holding_registers(0, 10, 1)
     print(result)
     return {tuple(result)}
 
