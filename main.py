@@ -4,6 +4,7 @@ Start of the MaMoTecEnergy Backend
 from fastapi import FastAPI
 
 import app.main.modbus.ModbusManagement as mod_management
+from app.main.dataclass.register.RegisterType import RegisterType
 from app.main.modbus.ReadModbus import read_holding_registers
 import app.main.crud as crud
 
@@ -18,9 +19,8 @@ def startup():
 
 @app.get("/read")
 def root():
-    result = read_holding_registers(0, 20, 1)
-    print(result)
-    return {tuple(result)}
+    holding = read_holding_registers(RegisterType.COIL.get_start_address(), 125, 1)
+    return {tuple(holding)}
 
 @app.get("/port")
 def root():
