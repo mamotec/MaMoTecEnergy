@@ -24,9 +24,4 @@ def root():
     return {tuple(result)}
 
 
-@app.get("/write")
-def root():
-    write_register(11, 10, 1)
-
-
 app.include_router(register.router)
