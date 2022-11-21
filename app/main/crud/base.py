@@ -12,61 +12,58 @@ CreateSchemaType = TypeVar("CreateSchemaType", bound=BaseModel)
 UpdateSchemaType = TypeVar("UpdateSchemaType", bound=BaseModel)
 
 
-class BaseService(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
-    def __init__(self, model: Type[ModelType], db_session: Session):
+class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
+    def __init__(self, model: Type[ModelType]):
         """
             Base Service for CRUD Operation´s like READ, UPDATE, DELETE AND CREATE
 
 
         :param model: model which is used.
-        :param db_session: db session for database connection
         """
         self.model = model
-        self.db_session = db_session
 
-    def get(self, object_id: Any) -> Optional[ModelType]:
+    def get(self, db_session: Session, id: Any) -> Optional[ModelType]:
         """
-        Get´s a specific object from the database
+       Get´s a specific object from the database
 
 
-        :param object_id: Identifier for the object, which is going to be searched.
-        :return: Found Object
+       :param db_session: Current Session.
+       :param id: Identifier for the object, which is going to be searched.
+       :return: Found Object
         """
-        obj: Optional[ModelType] = self.db_session.query(self.model).get(object_id)
-        if obj is None:
-            raise HTTPException(status_code=404, detail="Not Found")
-        return obj
+        return db_session.query(self.model).filter(self.model.id == id).first()
 
-    def list(self) -> List[ModelType]:
+    def list(self, db_session: Session) -> List[ModelType]:
         """
         Query´s everything for the specific Object Type
 
-        :return: List of Objects
+           :param db_session: Current Session.
+           :return: List of Objects
         """
-        objs: List[ModelType] = self.db_session.query(self.model).all()
+        objs: List[ModelType] = db_session.query(self.model).all()
         return objs
 
-    def create(self, obj: CreateSchemaType) -> ModelType:
+    def create(self, obj: CreateSchemaType, db_session: Session) -> ModelType:
         """
         Create´s an object in the database.
 
-
+        :param db_session: Current Session.
         :param obj: Object which is going to be created in the database.
         :return: Created Object
         """
         db_obj: ModelType = self.model(**obj.dict())
-        self.db_session.add(db_obj)
+        db_session.add(db_obj)
         try:
-            self.db_session.commit()
+            db_session.commit()
         except sqlalchemy.exc.IntegrityError as e:
-            self.db_session.rollback()
+            db_session.rollback()
             if "duplicate key" in str(e):
                 raise HTTPException(status_code=409, detail="Conflict Error")
             else:
                 raise e
         return db_obj
 
-    def update(self, object_id: Any, obj: UpdateSchemaType) -> Optional[ModelType]:
+    def update(self, object_id: Any, obj: UpdateSchemaType, db_session: Session, ) -> Optional[ModelType]:
         """
         Update´s a specific Object in the database.
 
@@ -77,10 +74,10 @@ class BaseService(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         db_obj = self.get(object_id)
         for column, value in obj.dict(exclude_unset=True).items():
             setattr(db_obj, column, value)
-        self.db_session.commit()
+        db_session.commit()
         return db_obj
 
-    def delete(self, object_id: Any) -> None:
+    def delete(self, object_id: Any, db_session: Session) -> None:
         """
         Delete´s a specific Object by its Identifier
 
@@ -88,6 +85,6 @@ class BaseService(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         :return:
         """
 
-        db_obj = self.db_session.query(self.model).get(object_id)
-        self.db_session.delete(db_obj)
-        self.db_session.commit()
+        db_obj = db_session.query(self.model).get(object_id)
+        db_session.delete(db_obj)
+        db_session.commit()

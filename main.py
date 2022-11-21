@@ -5,6 +5,7 @@ from fastapi import FastAPI
 
 import app.main.modbus.ModbusManagement as mod_management
 from app.main.modbus.ReadModbus import read_holding_registers
+import app.main.crud as crud
 
 app = FastAPI()
 
@@ -20,3 +21,8 @@ def root():
     result = read_holding_registers(0, 20, 1)
     print(result)
     return {tuple(result)}
+
+@app.get("/port")
+def root():
+    result = crud.port.get_available_ports()
+    return result
