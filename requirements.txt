@@ -11,3 +11,6 @@ psycopg2
 alembic~=1.8.1
 starlette~=0.20.4
 pyModbusTCP~=0.1.8
+
+h11~=0.14.0
+Click~=8.1.3

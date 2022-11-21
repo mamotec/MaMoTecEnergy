@@ -5,8 +5,6 @@ from fastapi import FastAPI
 
 import app.main.modbus.ModbusManagement as mod_management
 from app.main.modbus.ReadModbus import read_holding_registers
-from app.main.modbus.WriteModbus import write_register
-from app.main.router import register
 
 app = FastAPI()
 
@@ -22,6 +20,3 @@ def root():
     result = read_holding_registers(0, 20, 1)
     print(result)
     return {tuple(result)}
-
-
-app.include_router(register.router)
